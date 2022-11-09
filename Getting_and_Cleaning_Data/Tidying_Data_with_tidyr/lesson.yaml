@@ -12,10 +12,13 @@
 - Class: text
   Output: Parts of this lesson will require the use of dplyr. If you don't have a basic knowledge of dplyr, you should exit this lesson and begin with the dplyr lessons from earlier in the course.
 
+- Class: text
+  Output: Lesson is timed, take all the time you need to go through the lesson and expirment with the functions you will learn.
+
 - Class: cmd_question
   Output: tidyr was automatically installed (if necessary) and loaded when you started this lesson. Just to build the habit, (re)load the package with library(tidyr).
   CorrectAnswer: library(tidyr)
-  AnswerTests: omnitest('library(tidyr)')
+  AnswerTests: start_timer(); omnitest('library(tidyr)')
   Hint: Type library(tidyr) to (re)load the tidyr package.
 
 - Class: text
@@ -263,9 +266,8 @@
   Output: In this lesson, you learned how to tidy data with tidyr and dplyr. These tools will help you spend less time and energy getting your data ready to analyze and more time actually analyzing it.
 
 - Class: mult_question
-  Output: "Would you like to receive credit for completing this course on
-    Coursera.org?"
+  Output: "Would you like to receive credit for completing this course ?"
   CorrectAnswer: NULL
   AnswerChoices: Yes;No
-  AnswerTests: coursera_on_demand()
+  AnswerTests: stop_timer(); notify()
   Hint: ""

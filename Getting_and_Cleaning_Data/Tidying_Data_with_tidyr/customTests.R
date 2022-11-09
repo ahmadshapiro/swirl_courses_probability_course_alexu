@@ -107,33 +107,74 @@ getExpr <- function(){
   getState()$expr
 }
 
-coursera_on_demand <- function(){
-  selection <- getState()$val
-  if(selection == "Yes"){
-    email <- readline("What is your email address? ")
-    token <- readline("What is your assignment token? ")
-    
-    payload <- sprintf('{  
-      "assignmentKey": "bSjMh68hEeWV-A6Oxpvjnw",
-      "submitterEmail": "%s",  
-      "secret": "%s",  
-      "parts": {  
-        "G9cSo": {  
-          "output": "correct"  
-        }  
-      }  
-    }', email, token)
-    url <- 'https://www.coursera.org/api/onDemandProgrammingScriptSubmissions.v1'
+readline_clean <- function(prompt = "") {
+  wrapped <- strwrap(prompt, width = getOption("width") - 2)
+  mes <- stringr::str_c("| ", wrapped, collapse = "\n")
+  message(mes)
+  readline()
+}
+
+hrule <- function() {
+  message("\n", paste0(rep("#", getOption("width") - 2), collapse = ""), "\n")
+}
+start_timer <- function() {
+  e <- get('e', parent.frame())
+  e$`__lesson_start_time` <- now()
+  TRUE
+}
+
+stop_timer <- function() {
+  e <- get('e', parent.frame())
+  start_time <- e$`__lesson_start_time`
+  stop_time <- now()
+  to_print <- as.period(interval(start_time, stop_time))
+  e$`__elapsed` <- as.ts(interval(start_time, stop_time))[1]
+  print(e$`__elapsed`)
+  print(to_print)
+  TRUE
+}
+
+notify <- function() {
+  e <- get("e", parent.frame())
+  if(e$val == "No") return(TRUE)
   
-    respone <- httr::POST(url, body = payload)
-    if(respone$status_code >= 200 && respone$status_code < 300){
-      message("Grade submission succeeded!")
-    } else {
-      message("Grade submission failed.")
-      message("Press ESC if you want to exit this lesson and you")
-      message("want to try to submit your grade at a later time.")
-      return(FALSE)
-    }
+  good <- FALSE
+  while(!good) {
+    # Get info
+    message("\nMake sure you're connected to the internet\n")
+    
+    ID <- readline_clean("What is your ID? ")
+    
+    # Repeat back to them
+    message("\nDoes everything look good?\n")
+    message("Your ID: ", ID, "\n")
+    
+    yn <- select.list(c("Yes", "No"), graphics = FALSE)
+    if(yn == "Yes") good <- TRUE
   }
+  
+  # Get course and lesson names
+
+  lesson_name <- gsub(" ","+", attr(e$les, "lesson_name"))
+  start_time <- gsub(" ","+",e$`__lesson_start_time`)
+  time_elapsed <- e$`__elapsed`
+
+  library(httr)
+  baseLink <- "https://docs.google.com/forms/d/e/1FAIpQLSdU_q_QhNIoKdxpCBgDdiMbD_Okt3AldPqVk2IqRjcnAjb6dQ/formResponse?&submit=Submit?usp=pp_url"
+
+  idAttr <- "&entry.826582333="
+  lessonNameAttr <- "&entry.248191379="
+  startTimeAttr <- "&entry.267874381="
+  timeElapsed <- "&entry.840687692="
+
+  toPost <- paste0(baseLink, idAttr, ID, lessonNameAttr, lesson_name, startTimeAttr, start_time, timeElapsed, time_elapsed)
+
+  response <- POST(toPost) 
+  if (response['status_code'] == 200) {
+    message("\n Successfully Submited")
+  } else {
+    message("\n Please screen-shot and contact your instructor")
+  }
+
   TRUE
 }

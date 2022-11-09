@@ -5,6 +5,9 @@
   Type: Standard
   Organization: JHU Biostat
   Version: 2.2.13
+  
+- Class: text
+  Output: Lesson is timed, take all the time you need to go through the lesson and expirment with the functions you will learn.
 
 - Class: text
   Output: In this lesson, we'll explore the lubridate R package, by Garrett Grolemund and Hadley Wickham. According to the package authors, "lubridate has a consistent, memorable syntax, that makes working with dates fun instead of frustrating." If you've ever worked with dates in R, that statement probably has your attention.
@@ -328,9 +331,8 @@
   Hint: Type stopwatch() to see how long you've been working!
 
 - Class: mult_question
-  Output: "Would you like to receive credit for completing this course on
-    Coursera.org?"
+  Output: "Would you like to receive credit for completing this course ?"
   CorrectAnswer: NULL
   AnswerChoices: Yes;No
-  AnswerTests: coursera_on_demand()
+  AnswerTests: stop_timer(); notify()
   Hint: ""

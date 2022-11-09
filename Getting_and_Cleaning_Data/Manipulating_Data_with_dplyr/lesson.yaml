@@ -7,6 +7,9 @@
   Version: 2.2.12
 
 - Class: text
+  Output: Lesson is timed, take all the time you need to go through the lesson and expirment with the functions you will learn.
+
+- Class: text
   Output: In this lesson, you'll learn how to manipulate data using dplyr. dplyr is a fast and powerful R package written by Hadley Wickham and Romain Francois that provides a consistent and concise grammar for manipulating tabular data.
 
 - Class: text
@@ -18,7 +21,7 @@
 - Class: cmd_question
   Output: "I've created a variable called path2csv, which contains the full file path to the dataset. Call read.csv() with two arguments, path2csv and stringsAsFactors = FALSE, and save the result in a new variable called mydf. Check ?read.csv if you need help."
   CorrectAnswer: mydf <- read.csv(path2csv, stringsAsFactors = FALSE)
-  AnswerTests: omnitest(correctExpr='mydf <- read.csv(path2csv, stringsAsFactors = FALSE)')
+  AnswerTests: start_timer(); omnitest(correctExpr='mydf <- read.csv(path2csv, stringsAsFactors = FALSE)')
   Hint: Store the result of read.csv(path2csv, stringsAsFactors = FALSE) in a new variable called mydf.
 
 - Class: cmd_question
@@ -202,7 +205,7 @@
   Output: 'Now, put an exclamation point (!) before is.na() to change all of the TRUEs to FALSEs and all of the FALSEs to TRUEs, thus telling us what is NOT NA: !is.na(c(3, 5, NA, 10)).'
   CorrectAnswer: "!is.na(c(3, 5, NA, 10))"
   AnswerTests: omnitest('!is.na(c(3, 5, NA, 10))')
-  Hint: !is.na(c(3, 5, NA, 10)) will negate the previous command, thus telling us what is NOT NA.
+  Hint: '!is.na(c(3, 5, NA, 10)) will negate the previous command, thus telling us what is NOT NA.'
 
 - Class: cmd_question
   Output: 'Okay, ready to put all of this together? Use filter() to return all rows of cran for which r_version is NOT NA. Hint: You will need to use !is.na() as part of your second argument to filter().'
@@ -301,9 +304,8 @@
   Output: In this lesson, you learned how to manipulate data using dplyr's five main functions. In the next lesson, we'll look at how to take advantage of some other useful features of dplyr to make your life as a data analyst much easier.
 
 - Class: mult_question
-  Output: "Would you like to receive credit for completing this course on
-    Coursera.org?"
+  Output: "Would you like to receive credit for completing this course ?"
   CorrectAnswer: NULL
   AnswerChoices: Yes;No
-  AnswerTests: coursera_on_demand()
+  AnswerTests: stop_timer(); notify()
   Hint: ""
